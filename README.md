@@ -1,3 +1,9 @@
+Java JSF e Prime Faces para parte web
+Android a aplicação movel, 
+web service restfull
+Hibernate JPA2 
+Mysql banco de dados 
+
 Tese de conclusão de curso de Tecnologo em Analise e desenvolvimento de Sistemas Pelo IFPR Campus Paranavaí no ano de 2017 
 foi desenvolvido um sistema web e aplicação movel para android 
 
