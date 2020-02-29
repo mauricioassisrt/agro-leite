@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="template.xhtml">
+
+            <ui:define name="content">
+            <div class="panel panel-default">
+  <div class="panel-heading"> <h2 style="text-align: center">Cadastro de Animal </h2><br/></div>
+  <div class="panel-body">
+           
+            
+            <div class="alert alert-info">
+			  <strong>Informação:</strong> Nesta Sessão pode se efetuar o Cadastro de um novo animal
+			</div>
+			              
+			
+					 <h:form id="formCadastro">
+                      
+                        <div class="form-group col-xs-12 col-md-12">
+                            <h:outputLabel for="brinco" style="font-weight:bold" value="Nº do Brinco"/>
+                            <p:inputText id="brinco" value="#{controleAnimal.objetoAnimal.brinco}" style="width:100%"  placeholder="10.204" required="true" requiredMessage="Campo obrigatório"/>
+                            <p:message for="brinco"/>
+                        </div>  
+                        
+                        <div class="form-group col-xs-12 col-md-12">
+                            <h:outputLabel for="nome" style="font-weight:bold" value="Nome do Animal"/>
+                            <p:inputText id="nome" value="#{controleAnimal.objetoAnimal.nomeAnimal}" style="width:100%"  placeholder="Mimosa" required="true" requiredMessage="Campo obrigatório"/>
+                            <p:message for="nome"/>
+                           </div>
+                             
+                        <div class="form-group col-xs-12 col-md-6">
+                            <h:outputLabel for="dt" value="Data da Compra do Animal:" />
+      						<p:calendar id="dt"  locale="pt"     value="#{controleAnimal.objetoAnimal.dataCompra}" style="width:100%"  pattern="dd/MM/yyyy " mask="true"  required="true" requiredMessage="Campo obrigatório" />
+							<p:message for="dt"/>
+						 
+						 	</div>
+                          <div class="form-group col-xs-12 col-md-6">
+                            <h:outputLabel for="dataNasc" style="font-weight:bold" value="Data de Nascimento"/>
+                           <p:calendar id="dataNasc"  locale="pt"    value="#{controleAnimal.objetoAnimal.dtNascimento}" style="width:100%"  pattern="dd/MM/yyyy " mask="true"  required="true" requiredMessage="Campo obrigatório" />
+						  </div>
+                        
+                         <div class="form-group col-xs-12 col-md-12"> 
+                            <h:outputLabel for="valor" style="font-weight:bold" value="Valor de Compra"/>
+                            <p:inputMask id="valor" value="#{controleAnimal.objetoAnimal.valorCompra}"  mask="9999" style="width:100%" required="true" requiredMessage="Campo obrigatório" />
+<!--                             <h:outputLabel value="Caso seja nascido na propriedade, coloque zero!"  class="alert alert-success" role="alert" /> -->
+                          </div>
+                            
+                         <div class="form-group col-xs-12 col-md-12">
+                            <p:outputLabel for="sexo" value="Sexo: " />
+           					<p:selectOneMenu id="sexo" value="#{controleAnimal.objetoAnimal.sexo}" style="width:100%"  required="true" requiredMessage="Campo obrigatório" >
+            					<f:selectItem itemLabel="" itemValue="" />
+            					<f:selectItem itemLabel="Femea" itemValue="femea" />
+            				 	<f:selectItem itemLabel="Macho" itemValue="macho" />
+            			    </p:selectOneMenu>
+            			    </div>
+            			    
+            			    <div class="form-group col-xs-12 col-md-12">
+                            <p:outputLabel for="amamentando" value="Desmamado : " />
+           					<p:selectOneMenu id="amamentando" value="#{controleAnimal.objetoAnimal.desmamado}" style="width:100%"  required="true" requiredMessage="Campo obrigatório" >
+            					<f:selectItem itemLabel="" itemValue="" />
+            					<f:selectItem itemLabel="Sim" itemValue="sim" />
+            				 	<f:selectItem itemLabel="Não" itemValue="nao" />
+            			    </p:selectOneMenu>
+            			    </div>
+            			   
+            			   <div class="form-group col-xs-12 col-md-12">
+            			     <p:outputLabel for="vaca" value="Possui Lactação?: " />
+           					<p:selectOneMenu id="vaca" value="#{controleAnimal.objetoAnimal.lactando}" style="width:100%"  required="true" requiredMessage="Campo obrigatório" >
+            					<f:selectItem itemLabel="" itemValue="" />
+            					<f:selectItem itemLabel="Não" itemValue="nao" />
+            				 	<f:selectItem itemLabel="Sim" itemValue="sim" />
+            			    </p:selectOneMenu>
+            			    <p:message for="vaca"/>
+            			     </div>
+            			     
+            			    <div class="form-group col-xs-12 col-md-2">
+            			     <p:outputLabel  value="Origem do Animal: " />
+            			     </div>
+            			     <div class="form-group col-xs-12 col-md-3">
+							 <p:autoComplete id="origem" value="#{controleAnimal.objetoAnimal.objetoOrigem}"   completeMethod="#{controleAnimal.completaOrigem}"
+                                            var="origem" itemLabel="#{origem.local}" itemValue="#{origem}" converter="origemConverter" 
+                                            forceSelection="true"  dropdown="true"  required="true" requiredMessage="Campo obrigatório" placeholder="Fazenda Sitio" />
+                             	    </div>   
+                             	    <div class="form-group col-xs-12 col-md-1">
+                             	    <p:commandButton value="" 
+                                     oncomplete="PF('dialogcadastroOrigem').show();"
+
+                                     actionListener="#{controleOrigem.novo()}"
+                                     styleClass="glyphicon glyphicon-plus"
+                                     />
+                                </div>       
+                                            
+                             <div class="form-group col-xs-12 col-md-2">
+                             <p:outputLabel  value="Raça do Animal: " />
+                             </div>
+                             <div class="form-group col-xs-12 col-md-3">
+							 <p:autoComplete id="raca" value="#{controleAnimal.objetoAnimal.objetoRaca}" style="width:100%"  completeMethod="#{controleAnimal.completaRaca}"
+                                            var="raca" itemLabel="#{raca.nomeDaRaca}" itemValue="#{raca}" converter="racaConverter" 
+                                            forceSelection="true" dropdown="true"   required="true" requiredMessage="Campo obrigatório" placeholder="Giro, Holandes"/>
+                         </div>
+                          <div class="form-group col-xs-12 col-md-1">
+                         <p:commandButton value="" 
+                                     oncomplete="PF('dialogcadastroRaca').show();"
+                                     update=":formCadastroRaca" 
+                                     actionListener="#{controleRaca.novo()}"
+                                     styleClass="glyphicon glyphicon-plus"/>      
+                             </div>
+                               
+                           
+                               
+                              
+                        <p:commandButton value="Salvar" 
+                                         validateClient="true" 
+                                         ajax="false" 
+                                         oncomplete="PF('cadastro').hide()"
+                                         actionListener="#{controleAnimal.inserir()}" 
+										 action="./animal.jsf?faces-redirect=true" 
+                                          icon="ui-icon-disk" style="width: 100%"/>
+                    </h:form>
+                    
+                    <p:dialog widgetVar="dialogcadastroRaca" header="Cadastro de Raca de Animal" modal="true" >
+                    <h:form id="formCadastroRaca" >
+
+                        <h:panelGrid id="grid" columns="3">
+                            <h:outputLabel for="raca" style="font-weight:bold" value="Raça do Animal"/>
+                            <p:inputText id="raca" placeholder="Holandes, Nelore..." value="#{controleRaca.objetoRaca.nomeDaRaca}" required="true" requiredMessage="Campo obrigatório"/>
+                            <p:message for="raca"/>
+                        </h:panelGrid>
+                        <p:commandButton value="Salvar" 
+                                         validateClient="true" 
+                                         ajax="false" 
+                                         oncomplete="PF('cadastroRaca').hide()"
+                                         action="#{controleRaca.inserir()}" 
+                                         styleClass="btn btn-default"
+                                          icon="ui-icon-disk" style="width: 100%" />
+                    </h:form>
+                </p:dialog>
+                <p:dialog widgetVar="dialogcadastroTipo" header="Cadastro de Tipo de Animal" modal="true" appendTo="@(body)">
+                    <h:form id="formCadastroTipo">
+                        <h:panelGrid id="grid" columns="3">
+                            <h:outputLabel for="tipo" style="font-weight:bold" value="Tipo "/>
+                            <p:inputText id="tipo" placeholder="Vaca, Bezero ou Boi" value="#{controleTipo.objetoTipo.animalTipo}" required="true" requiredMessage="Campo obrigatório"/>
+                            <p:message for="tipo"/>
+                        </h:panelGrid>
+                        <p:commandButton value="Salvar" 
+                                         validateClient="true" 
+                                         ajax="false" 
+                                         oncomplete="PF('cadastroTipo').hide()"
+                                         action="#{controleTipo.inserir()}" icon="ui-icon-disk" style="width: 100%"/>
+                    </h:form>
+                </p:dialog>
+                   <p:dialog widgetVar="dialogcadastroOrigem" header="Cadastro de Origem de Animal" modal="true" appendTo="@(body)">
+                    <h:form id="formCadastroOrigem">
+                        <h:panelGrid id="grid" columns="3">
+                            <h:outputLabel for="origem" style="font-weight:bold" value="Origem"/>
+                            <p:inputText id="origem" value="#{controleOrigem.objetoOrigem.local}" placeholder="Sitio do seu Zé!" required="true" requiredMessage="Campo obrigatório"/>
+                            <p:message for="origem"/>
+                        </h:panelGrid>
+                        <p:commandButton value="Salvar" 
+                                         validateClient="true" 
+                                         ajax="false" 
+                                         oncomplete="PF('cadastroOrigem').hide()"
+                                         action="#{controleOrigem.inserir()}" 
+                                          icon="ui-icon-disk" style="width: 100%"/>
+                    </h:form>
+                </p:dialog>
+                    </div>
+</div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

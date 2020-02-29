@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+	
+        <ui:composition template="template.xhtml">
+	
+            <ui:define name="content">
+        <h:form target="_blank">
+        
+				<p:growl id="messages" sticky="true" showDetail="true" life="5000" />
+				<div class="panel panel-default">
+				 <div class="panel-heading"> <h2 style="text-align: center">Relatório referente a venda de animais da propriedade </h2><br/></div>
+  				<div class="panel-body" style="margin: auto">
+				  <div class="alert alert-info">
+			  		<strong>Informação:</strong> Nesta Sessão informe as datas corespondentes, a DATA INICIAL deve sempre ser a menor!
+				</div>
+			    
+			       
+				<h:panelGrid columns="2">
+				
+				<p:outputLabel for="popup" value="Data Inicial" />
+		        <p:calendar id="popup"  locale="pt"    pattern="dd/MM/yyyy"  value="#{controleRelatorios.dataInicial}" />
+		        
+				<p:outputLabel for="pou1" value="Data Final" />
+		        <p:calendar id="pou1"  locale="pt"    pattern="dd/MM/yyyy"   value="#{controleRelatorios.dataFinal}" />
+        		</h:panelGrid>
+        		
+				<p:commandButton value="Exibir"  update="@form"  actionListener="#{controleRelatorios.chamaRelatorioVendas()}" ajax="false" />
+				</div>
+			
+				</div>
+           
+    	         
+    	</h:form>			
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

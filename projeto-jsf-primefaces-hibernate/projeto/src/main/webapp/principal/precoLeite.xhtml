@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <body>
+
+                <ui:composition template="template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="formTabela">
+
+                   
+                    <p:commandButton value="Novo" 
+                                     oncomplete="PF('dialogcadastro').show();"
+                                     update=":formCadastro" 
+                                     actionListener="#{controleLeite.novo()}"
+                                     />
+                   
+
+                    <p:dataTable value="#{controleLeite.lista}" var="obj" styleClass="table" 
+                                 rows="10"
+                                 paginator="true"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 emptyMessage="Nenhum Registro encontrado"
+                        >
+                        <f:facet name="header">
+                            <h1>  Valor do Leite Atual </h1> 
+                        </f:facet>
+
+                        <p:column sortBy="#{obj.valorLitro}"
+                             filterBy="#{obj.valorLitro}">
+                            <f:facet name="header">
+                                <h:outputText value="Valor Litro do leite " />
+                            </f:facet>
+                            <h:outputText id="leite" value="#{obj.valorLitro}" />
+                        </p:column>
+                         <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Data " />
+                            </f:facet>
+                            <h:outputText id="data" value="#{obj.dataDoValor}" >
+                             <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column>
+                            <p:commandButton value="Alterar" 
+                                             styleClass="btn btn-default"
+                                             update=":formCadastro" 
+                                             oncomplete="PF('dialogcadastro').show();">
+                                <f:setPropertyActionListener value="#{obj}"
+                                                             target="#{controleLeite.objetoLeite}"/>
+                            </p:commandButton>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton icon="ui-icon-close"
+                                             actionListener="#{controleLeite.excluir(obj)}"
+                                             update="@form"
+                                             styleClass="btn btn-default">
+                                <p:confirm header="Confirmação " message="Deseja Apagar "/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                </h:form>
+                <p:dialog widgetVar="dialogcadastro" header="Valor do Leite" modal="true" appendTo="@(body)">
+                    <h:form id="formCadastro">
+                        <h:panelGrid id="grid" columns="3">
+                            <h:outputLabel for="leite" style="font-weight:bold" value="Valor R$ "/>
+                            <p:inputText id="leite"  value="#{controleLeite.objetoLeite.valorLitro}" required="true" requiredMessage="Campo "/>
+                            <p:message for="leite"/>
+                            
+                              
+                            <p:outputLabel for="dt" value="Alteração:" />
+      						<p:calendar id="dt" locale="pt"    value="#{controleLeite.objetoLeite.dataDoValor}" style="width:100%"  pattern="dd/MM/yyyy " mask="true" showOn="button" required="true" requiredMessage="Campo " />
+							<p:message for="dt"/>
+                            
+                        </h:panelGrid>
+                        <p:commandButton value="Salvar" 
+                                         validateClient="true" 
+                                         ajax="false" 
+                                         oncomplete="PF('cadastro').hide()"
+                                         action="#{controleLeite.inserir()}" 
+
+                                         update=":formTabela" icon="ui-icon-disk" style="width: 100%"/>
+                    </h:form>
+                </p:dialog>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

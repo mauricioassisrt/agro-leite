@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="ProjetoTcc" transaction-type="RESOURCE_LOCAL">
+  	<class>entidades.Animal</class>
+  	<class>entidades.AnimalProducao</class>
+  	<class>entidades.AnimalVenda</class>
+  	<class>entidades.Origem</class>
+  	<class>entidades.Pessoa</class>
+  	<class>entidades.Producao</class>
+  	<class>entidades.Raca</class>
+  	<class>entidades.Remedios</class>
+  	<class>entidades.Tipo</class>
+  	<class>entidades.Vacinacao</class>
+  	<class>entidades.Venda</class>
+  	<class>entidades.teste</class>
+    
+   
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/projetoleite"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value=""/>
+      <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+      <property name="hibernate.hbm2ddl.auto" value="update"/>
+    </properties>
+  </persistence-unit>
+</persistence>

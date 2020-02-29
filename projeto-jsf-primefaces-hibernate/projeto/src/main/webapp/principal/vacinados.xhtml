@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="formTabela">
+			
+			<!-- <ul class="nav nav-tabs">
+			  <li role="presentation" class="active"><a href="">Controle de Medicação de Animais</a></li>
+			  <li role="presentation"><a href="./vacinacao.jsf">Animais para Medicação</a></li>
+			  <li role="presentation"><a href="./vacinados.jsf">Animais Medicados</a></li>
+			 </ul> -->
+
+                    <p:dataTable value="#{controleAnimal.listaCondicaoAnimal}" var="obj" styleClass="table" 
+                                 rows="10"
+                                 paginator="true"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" emptyMessage="Nenhum Registro encontrado"
+                        >
+                        <f:facet name="header">
+                            <h1>  Lista de Animais Medicados</h1> 
+                        </f:facet>
+
+                        <p:column  sortBy="#{obj.objetoAnimal.nomeAnimal}"
+                             filterBy="#{obj.objetoAnimal.nomeAnimal}">
+                            <f:facet name="header">
+                                <h:outputText value="Animal" />
+                            </f:facet>
+                            <h:outputText id="animal" value="#{obj.objetoAnimal.nomeAnimal}" />
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header" >
+                                <h:outputText value="Data da Medicação" />
+                            </f:facet>
+                            <h:outputText id="vacinacao" value="#{obj.dataVacinacao}" >
+                              <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column sortBy="#{obj.objetoRemedio.nomeVacina}"
+                             filterBy="#{obj.objetoRemedio.nomeVacina}">
+                            <f:facet name="header">
+                                <h:outputText value="Medicação" />
+                            </f:facet>
+                            <h:outputText id="nomeVacina" value="#{obj.objetoRemedio.nomeVacina}" />
+                        </p:column>
+						
+                        <p:column>
+                            <p:commandButton value="Detalhes" 
+                                             
+                                             update=":formCadastro" 
+                                             oncomplete="PF('dialogcadastro').show();">
+                                <f:setPropertyActionListener value="#{obj}"
+                                                             target="#{controleAnimal.objetoVacinacao}"/>
+                            </p:commandButton>
+                        </p:column>
+                        
+                    </p:dataTable>
+                   
+                </h:form>
+                  <p:dialog widgetVar="dialogcadastro" header="Cadastro de Animal" modal="true" appendTo="@(body)" responsive="true" width="50%">
+                    <h:form id="formCadastro">
+                        
+                        <center>
+                        <h:panelGrid id="grid" columns="2">
+                            <h:outputLabel for="brinco" style="font-weight:bold" value="Nº do Brinco"/>
+                            <p:outputLabel id="brinco" value="#{controleAnimal.objetoVacinacao.objetoAnimal.nomeAnimal}" style="width:100%"  />
+                            
+                            <h:outputLabel for="nome" style="font-weight:bold" value="Nome do Animal"/>
+                            <p:outputLabel id="nome" value="#{controleAnimal.objetoVacinacao.objetoAnimal.nomeAnimal}" style="width:100%"/>
+                            
+                            <p:outputLabel for="dt" value="Data da Compra :" />
+      						<p:outputLabel id="dt" value="#{controleAnimal.objetoVacinacao.objetoAnimal.dataCompra}" style="width:100%" >
+      						  <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3"/>
+      						</p:outputLabel>
+							
+                            <h:outputLabel for="dataNasc" style="font-weight:bold" value="Data de Nascimento"/>
+                           <p:outputLabel id="dataNasc" value="#{controleAnimal.objetoVacinacao.objetoAnimal.dtNascimento}" style="width:100%"  >
+                             <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3"/>
+                           </p:outputLabel>
+							
+                           
+                            <h:outputLabel for="valor" style="font-weight:bold" value="Valor de Compra"/>
+                            <p:outputLabel id="valor" value="#{controleAnimal.objetoVacinacao.objetoAnimal.valorCompra}"  />
+                          
+                        
+            			    
+            			     <p:outputLabel for="vacina" value="Medicação Desejada : " />
+							 <p:outputLabel id="vacina" value="#{controleAnimal.objetoVacinacao.objetoRemedio.nomeVacina}"  />
+                                      
+                                            
+                           
+                           </h:panelGrid>
+                           
+                            
+                           
+                           </center>
+                        <p:commandButton value="Ok" 
+                                         validateClient="true" 
+                                         ajax="false" 
+                                         oncomplete="PF('cadastro').hide()"
+										 icon="ui-icon-disk" style="width: 100%"/>
+                    </h:form>
+                </p:dialog>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

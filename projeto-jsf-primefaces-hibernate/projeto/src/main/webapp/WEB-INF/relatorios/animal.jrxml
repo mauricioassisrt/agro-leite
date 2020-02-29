@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
+<!-- 2017-08-24T21:23:31 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="animal" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3881065b-d00e-46f1-8f7e-50163d0d4cf9">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="idanimal" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT projetoleite.animal.`nomeAnimal`,
+	projetoleite.animal.`objetoRaca_id`,
+	projetoleite.animalproducao.`quantidadeTotal`,
+	projetoleite.animalproducao.`valorTotal`,
+	projetoleite.animalproducao.`objetoAnimal_id`,
+	projetoleite.animalproducao.`objetoProducao_id`,
+	projetoleite.producao.`dataOrdenha`,
+	projetoleite.producao.`objetoLeite_id`,
+	projetoleite.leite.`valorLitro`,
+	projetoleite.animal.brinco,
+	projetoleite.animal.`dtNascimento`,
+	projetoleite.raca.`nomeDaRaca`
+FROM projetoleite.animalproducao
+	INNER JOIN projetoleite.animal ON 
+	 projetoleite.animalproducao.`objetoAnimal_id` = projetoleite.animal.id 
+	INNER JOIN projetoleite.producao ON 
+	 projetoleite.animalproducao.`objetoProducao_id` = projetoleite.producao.id 
+	INNER JOIN projetoleite.leite ON 
+	 projetoleite.producao.`objetoLeite_id` = projetoleite.leite.id 
+	INNER JOIN projetoleite.raca ON 
+	 projetoleite.animal.`objetoRaca_id` = projetoleite.raca.id 
+WHERE 
+	 projetoleite.animal.id = $P{idanimal}]]>
+	</queryString>
+	<field name="nomeAnimal" class="java.lang.String"/>
+	<field name="objetoRaca_id" class="java.lang.Long"/>
+	<field name="quantidadeTotal" class="java.lang.Double"/>
+	<field name="valorTotal" class="java.lang.Double"/>
+	<field name="objetoAnimal_id" class="java.lang.Long"/>
+	<field name="objetoProducao_id" class="java.lang.Long"/>
+	<field name="dataOrdenha" class="java.sql.Date"/>
+	<field name="objetoLeite_id" class="java.lang.Long"/>
+	<field name="valorLitro" class="java.lang.Double"/>
+	<field name="brinco" class="java.lang.Integer"/>
+	<field name="dtNascimento" class="java.sql.Timestamp"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="155" splitType="Stretch">
+			<rectangle>
+				<reportElement x="2" y="0" width="551" height="140" uuid="373283c2-63b4-4c40-9c3f-851ae9a2f95a"/>
+			</rectangle>
+			<textField pattern="EEEEE dd MMMMM yyyy h:mm a">
+				<reportElement x="10" y="0" width="130" height="20" forecolor="#000000" uuid="6839b992-17b9-4e27-acfd-aebae3deb03c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="h:mm a">
+				<reportElement x="140" y="0" width="88" height="20" forecolor="#000000" uuid="e58d62c3-0f28-493a-8f24-a3e11c70b5fe"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="420" y="0" width="80" height="20" forecolor="#000000" uuid="cb158375-db1e-4a15-a6b5-3c49a4686b7c"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="500" y="0" width="40" height="20" forecolor="#000000" uuid="a5f5bf02-4c85-4ca0-a4b2-9270b138d018"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="6" y="30" width="164" height="100" uuid="ee10da9d-99e9-47aa-a67d-2e09960351df"/>
+				<imageExpression><![CDATA["logoProjeto.jpeg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="183" y="65" width="214" height="30" uuid="f1d1be18-3f12-4b1a-888c-28d040411778"/>
+				<textElement>
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Produção do Animal ]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="117" splitType="Stretch">
+			<textField>
+				<reportElement x="120" y="40" width="450" height="30" uuid="0a9fd38a-464c-45a2-901e-59376b279e40"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomeAnimal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="40" width="105" height="30" uuid="eff450da-76b4-4c1c-8fe4-c3bfbf68a745"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Animal ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="120" y="10" width="80" height="30" uuid="657aec75-bd07-4f9c-bc02-7a00837b34e9"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{brinco}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="10" width="110" height="30" uuid="45d0913a-0fd0-4442-8be3-4a7d08b4993f"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nº do brinco]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="370" y="10" width="100" height="30" uuid="e42d1dc7-0c11-4dbf-a713-1218ff0604e2"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dtNascimento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="210" y="10" width="160" height="30" uuid="b2b12ab9-84b6-4f08-a3d7-8df28ec7141a"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data de Nascimento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="270" y="80" width="100" height="30" uuid="5ecfc6d0-cabb-4ac5-8268-e4377c9d87ca"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Litros]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="384" y="80" width="175" height="30" uuid="562bac4b-6eeb-49d2-9842-6cafba5f13d9"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor Total da Produção]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="80" width="100" height="30" uuid="756f35b0-05ad-427c-bce0-8a3f17f51e5a"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor do Litro]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="80" width="115" height="30" uuid="6ae5d97b-47b3-4808-a5f1-8c3f193200a1"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data da Ordenha]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="44" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="15" y="10" width="100" height="30" uuid="1116679d-f8d9-4498-abeb-d18d6faf4151"/>
+				<textElement>
+					<font fontName="SansSerif" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataOrdenha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="270" y="10" width="100" height="30" uuid="85aff8dc-fca6-4b61-8ab2-6d523de03d01"/>
+				<textElement>
+					<font fontName="SansSerif" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantidadeTotal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="421" y="10" width="100" height="30" uuid="7c71ddab-7350-4aee-a61a-04778a237763"/>
+				<textElement>
+					<font fontName="SansSerif" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorTotal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="140" y="10" width="100" height="30" uuid="f3acc789-333c-4f5a-996a-8f752ebea5ac"/>
+				<textElement>
+					<font fontName="SansSerif" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorLitro}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="57" splitType="Stretch"/>
+	</summary>
+</jasperReport>

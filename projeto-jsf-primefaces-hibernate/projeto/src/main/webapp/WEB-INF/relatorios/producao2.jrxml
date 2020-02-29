@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="producao2" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="48a8c269-f87a-4a98-a3c7-3daec3cc8171">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="tcc"/>
+	<parameter name="datainicial" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="datafinal" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT*
+FROM producao
+WHERE dataOrdenha BETWEEN  $P{datainicial}  AND  $P{datafinal}]]>
+	</queryString>
+	<field name="dataOrdenha" class="java.sql.Date"/>
+	<field name="quantidadeLitros" class="java.lang.Double"/>
+	<field name="valorTotalProDiaria" class="java.lang.Double"/>
+	<variable name="valorTotalProDiaria1" class="java.lang.Double" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{valorTotalProDiaria}]]></variableExpression>
+	</variable>
+	<variable name="quantidadeLitros1" class="java.lang.Double" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{quantidadeLitros}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="143" splitType="Stretch">
+			<rectangle>
+				<reportElement x="1" y="0" width="551" height="130" uuid="103730f9-a524-47d4-80d2-23c073ed228b"/>
+			</rectangle>
+			<image>
+				<reportElement x="5" y="20" width="165" height="100" uuid="1e42bae7-3da4-43b4-9bd2-20677588c7ca"/>
+				<imageExpression><![CDATA["logoProjeto.jpeg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="170" y="56" width="233" height="30" uuid="ba54931b-28c6-402e-ab82-cbe9700f4bb5"/>
+				<textElement>
+					<font size="23" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ordenhas realizadas ]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="9" y="0" width="151" height="20" forecolor="#000000" uuid="fdbb0ac9-66bb-47a9-ab70-df45b212b0a5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="419" y="0" width="80" height="20" forecolor="#000000" uuid="6eebf473-4ad7-4ddc-a6a2-51e374e2be9a"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="499" y="0" width="40" height="20" forecolor="#000000" uuid="7cd82635-70d8-41f2-b6f8-9979a3530f4e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="h:mm a">
+				<reportElement x="160" y="0" width="88" height="20" forecolor="#000000" uuid="efd609d0-5da9-4670-a245-150ac0d16188"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="1" width="130" height="30" uuid="c1aa29aa-3a42-4fa5-98e0-a4d6a6da3744"/>
+				<textElement>
+					<font fontName="SansSerif" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data da Ordenha ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="1" width="230" height="30" uuid="ed53300b-32a8-40fd-8edc-58ccd2662873"/>
+				<textElement>
+					<font fontName="SansSerif" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Litros produzidos ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="390" y="3" width="100" height="27" uuid="b547f476-2f33-46b3-9ecb-9c3927de3052"/>
+				<textElement>
+					<font fontName="SansSerif" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor Total ]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="10" y="-2" width="100" height="30" uuid="924c70dd-f0ec-4644-81ae-306811c11e92"/>
+				<textElement>
+					<font fontName="SansSerif" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataOrdenha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="215" y="-2" width="115" height="30" uuid="7d4d1def-8b07-4fad-9b58-de03380a4e7e"/>
+				<textElement>
+					<font fontName="SansSerif" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantidadeLitros}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="390" y="-2" width="110" height="30" uuid="bc216558-e37b-4f3f-b1a8-9f879284a1ac"/>
+				<textElement>
+					<font fontName="SansSerif" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorTotalProDiaria}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="53" splitType="Stretch">
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="360" y="24" width="160" height="21" uuid="4bd06d06-23a1-4fe8-8cb9-7f59cd01d2eb"/>
+				<textElement>
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{valorTotalProDiaria1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="270" y="24" width="80" height="20" uuid="26b6d178-2410-46cb-b405-716f7a927e83"/>
+				<textElement>
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL  R$ =]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="130" y="22" width="130" height="24" uuid="d369227a-7791-4cca-ae1f-43e6142032dc"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{quantidadeLitros1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="22" width="120" height="24" uuid="ee777886-cbcb-41bf-9a3e-990a3bd27dbf"/>
+				<textElement>
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL (LITROS)=]]></text>
+			</staticText>
+			<line>
+				<reportElement x="2" y="50" width="551" height="1" uuid="536c8cd5-8450-44e3-a53c-b5287f83a8d4"/>
+			</line>
+			<line>
+				<reportElement x="2" y="20" width="551" height="1" uuid="990436f9-0e6d-4db6-bf13-425bcc59c775"/>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

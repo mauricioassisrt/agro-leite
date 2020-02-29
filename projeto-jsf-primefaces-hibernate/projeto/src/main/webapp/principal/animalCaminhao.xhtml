@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="template.xhtml">
+
+            <ui:define name="content">
+           <p:growl id="messages" sticky="true" showDetail="true" life="5000" />
+                <h:form id="formTabela">
+                 
+			 
+			   <p:dataTable value="#{controleAnimalVenda.listaV}" var="obj" styleClass="table" 
+                                 rows="10"
+                                 emptyMessage="Nenhum animal adicionado"
+                                 paginator="true"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        >
+                        <f:facet name="header">
+                            <h1>  Animais Embarcados</h1> 
+                        </f:facet>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Animal" />
+                            </f:facet>
+                            <h:outputText id="animal" value="#{obj.objetoAnimal.nomeAnimal}" />
+                        </p:column>
+						
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Data de Nascimento" />
+                            </f:facet>
+                            <h:outputText id="data" value="#{obj.objetoAnimal.dtNascimento}" >
+                             <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Data da compra" />
+                            </f:facet>
+                            <h:outputText id="dcompra" value="#{obj.objetoAnimal.dataCompra}" >
+                             <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Valor da compra" />
+                            </f:facet>
+                            <h:outputText id="valor" value="#{obj.objetoAnimal.valorCompra}" />
+                             
+                            </p:column>
+                      		<p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Valor da Venda" />
+                            </f:facet>
+                            <h:outputText id="venda" value="#{obj.valorTotal}" />
+                             
+                            </p:column>      
+                        <p:column>
+                            <p:commandButton value="Detalhes " 
+                                             
+                                             update=":formCadastro" 
+                                             oncomplete="PF('dialogcadastro').show();">
+                                <f:setPropertyActionListener value="#{obj}"
+                                                             target="#{controleAnimalVenda.objetoMovimentoVenda}"/>
+                            </p:commandButton>
+                        </p:column>
+                         <p:column>
+                            <p:commandButton value="Remover" 
+                                             actionListener="#{controleAnimalVenda.removerIten(obj)}"
+                                             update="@form"
+                                            >
+                                <p:confirm header="Confirmação " message="Deseja Apagar "/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                     <p:commandButton value="Vender Animais"
+                      					 action="#{controleAnimalVenda.inserirMovimentoVenda()}" 
+                      					 actionListener="#{controleAnimalVenda.trueAnimal()}"
+                                         update=":formTabela" icon="ui-icon-disk" style="width: 100%"/>
+                                         
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                </h:form>
+                  <p:dialog widgetVar="dialogcadastro" header="Cadastro de Animal" modal="true" appendTo="@(body)" responsive="true">
+                    <h:form id="formCadastro">
+                        <h:panelGrid id="grid" columns="2">
+                        
+                           
+                              
+                             <h:outputLabel for="valorVen" style="font-weight:bold" value="Valor de Venda"/>
+                             <p:inputMask id="valorVen" value="#{controleAnimalVenda.objetoMovimentoVenda.valorTotal}"  mask="9999" style="width:100%" required="true" requiredMessage="Campo " />
+                           
+                            
+                          
+                        </h:panelGrid>
+                        <p:commandButton value="Ok" 
+                                         validateClient="true" 
+                                         ajax="false" 
+                                         
+                                         oncomplete="PF('cadastro').hide()"
+                                         update=":formTabela" icon="ui-icon-disk" style="width: 100%"/>
+                    </h:form>
+                </p:dialog>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

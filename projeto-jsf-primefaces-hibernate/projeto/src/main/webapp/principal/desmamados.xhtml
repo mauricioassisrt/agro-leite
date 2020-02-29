@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="formTabela">
+
+              
+                    <p:dataTable value="#{controleDesmamados.listaCondicaoAnimal}" var="obj" styleClass="table" 
+                                 rows="10"
+                                 paginator="true"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                  emptyMessage="Nenhum Registro encontrado"
+                        >
+                        <f:facet name="header">
+                            <h1>  Lista de Animal Desmamados</h1> 
+                        </f:facet>
+
+                         <p:column sortBy="#{obj.nomeAnimal}"
+                             filterBy="#{obj.nomeAnimal}">
+                            <f:facet name="header">
+                                <h:outputText value="Animal" />
+                            </f:facet>
+                            <h:outputText id="animal" value="#{obj.nomeAnimal}" />
+                        </p:column>
+
+                       
+                         <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Data de Nascimento" />
+                            </f:facet>
+                            <h:outputText id="nas" value="#{obj.dtNascimento}"  >
+                             <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3"/>
+                            </h:outputText>
+                            
+                        </p:column>
+                         <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Data do Desmame" />
+                            </f:facet>
+                            <h:outputText id="desmame" value="#{obj.dtDesmame}"  >
+                             <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3"/>
+                            </h:outputText>
+                            
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Detalhes" 
+                                             
+                                             update=":formCadastro" 
+                                             oncomplete="PF('dialogcadastro').show();">
+                                <f:setPropertyActionListener value="#{obj}"
+                                                             target="#{controleDesmamados.objetoAnimal}"/>
+                            </p:commandButton>
+                        </p:column>
+                        
+                    </p:dataTable>
+                  
+                </h:form>
+                  <p:dialog widgetVar="dialogcadastro" header="Cadastro de Animal" modal="true" appendTo="@(body)" responsive="true">
+                    <h:form id="formCadastro">
+                       
+                           <h:panelGrid id="grid" columns="2">
+                          <h:outputLabel for="brinco" style="font-weight:bold" value="Nº do Brinco"/>
+                            <p:outputLabel id="brinco" value="#{controleDesmamados.objetoAnimal.brinco}" style="width:100%"  />
+                            
+                            <h:outputLabel for="nome" style="font-weight:bold" value="Nome do Animal"/>
+                            <p:outputLabel id="nome" value="#{controleDesmamados.objetoAnimal.nomeAnimal}" style="width:100%"/>
+                            
+                            <p:outputLabel for="dt" value="Data da Compra :" />
+      						<p:outputLabel id="dt" value="#{controleDesmamados.objetoAnimal.dataCompra}" style="width:100%" >
+      						  <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3"/>
+      						</p:outputLabel>
+							
+                            <h:outputLabel for="dataNasc" style="font-weight:bold" value="Data de Nascimento"/>
+                           <p:outputLabel id="dataNasc" value="#{controleDesmamados.objetoAnimal.dtNascimento}" style="width:100%"  >
+                             <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3"/>
+                           </p:outputLabel>
+							
+                         
+                            
+                            <h:outputLabel for="valor" style="font-weight:bold" value="Valor de Compra"/>
+                            <p:outputLabel id="valor" value="#{controleDesmamados.objetoAnimal.valorCompra}"  />
+                              
+                              <h:outputLabel for="dataDes" style="font-weight:bold" value="Data de Desmame"/>
+                           <p:outputLabel id="dataDes" value="#{controleDesmamados.objetoAnimal.dtNascimento}" style="width:100%"  >
+                             <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3"/>
+                           </p:outputLabel> 
+                              
+                            
+                          
+                        </h:panelGrid>
+                                          
+                      
+                        <p:commandButton value="Ok" 
+                                         validateClient="true" 
+                                         ajax="false" 
+                                         oncomplete="PF('cadastro').hide()"
+                                        
+
+                                         update=":formTabela" icon="ui-icon-disk" style="width: 100%"/>
+                    </h:form>
+                </p:dialog>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

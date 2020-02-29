@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="formTabela">
+
+                    
+
+                    <p:dataTable value="#{controleAnimalVenda.listaAnimaisVendidos}" var="obj" styleClass="table" 
+                                 rows="10"
+                                 paginator="true"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                  emptyMessage="Nenhum Registro encontrado"
+                        >
+                        <f:facet name="header">
+                            <h1>  Animais Vendidos </h1> 
+                        </f:facet>
+
+                        <p:column sortBy="#{obj.objetoAnimal.nomeAnimal}"
+                             filterBy="#{obj.objetoAnimal.nomeAnimal}">
+                            <f:facet name="header">
+                                <h:outputText value="Animal" />
+                            </f:facet>
+                            <h:outputText id="animal" value="#{obj.objetoAnimal.nomeAnimal}" />
+                        </p:column>
+                        <p:column sortBy="#{obj.objetoAnimal.valorCompra}"
+                             filterBy="#{obj.objetoAnimal.valorCompra}">
+                            <f:facet name="header">
+                                <h:outputText value="Valor da Compra" />
+                            </f:facet>
+                            <h:outputText id="vlrVenda" value="#{obj.objetoAnimal.valorCompra}" />
+                        </p:column>
+						
+						<p:column sortBy="#{obj.valorTotal}"
+                             filterBy="#{obj.valorTotal}">
+                            <f:facet name="header">
+                                <h:outputText value="Valor da Venda" />
+                            </f:facet>
+                            <h:outputText id="vlrsVenda" value="#{obj.valorTotal}" />
+                        </p:column>
+                       
+                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Data da Venda" />
+                            </f:facet>
+                            <p:outputLabel id="dt" value="#{obj.objetoVenda.dataVenda}" style="width:100%" >
+      						  <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3"/>
+      						</p:outputLabel>
+                        </p:column>
+<!--                           <p:column> -->
+<!--                             <p:commandButton value="Detalhes"  -->
+                                             
+<!--                                              update=":formCadastro"  -->
+<!--                                              oncomplete="PF('dialogcadastro').show();"> -->
+<!--                                 <f:setPropertyActionListener value="#{obj}" -->
+<!--                                                              target="#{controleAnimalVenda.objetoMovimentoVenda}"/> -->
+<!--                             </p:commandButton> -->
+<!--                         </p:column> -->
+                       
+                    </p:dataTable>
+                   
+                </h:form>
+                  <p:dialog widgetVar="dialogcadastro" header="Cadastro de Animal" modal="true" appendTo="@(body)" responsive="true">
+                    <h:form id="formCadastro">
+                        <h:panelGrid id="grid" columns="2">
+                            <h:outputLabel for="brinco" style="font-weight:bold" value="Nº do Brinco"/>
+                            <p:outputLabel id="brinco" value="#{controleAnimalVenda.objetoMovimentoVenda.objetoAnimal.nomeAnimal}" style="width:100%"  />
+                           
+                            
+                            <h:outputLabel for="nome" style="font-weight:bold" value="Nome do Animal"/>
+                            <p:outputLabel id="nome" value="#{controleAnimalVenda.objetoAnimal.nomeAnimal}" style="width:100%" />
+                           
+                            
+                            <p:outputLabel for="dt" value="Data da Compra do Animal:" />
+      						<p:outputLabel id="dt" value="#{controleAnimalVenda.objetoAnimal.dataCompra}" style="width:100%" />
+							
+                            
+                            <h:outputLabel for="dataNasc" style="font-weight:bold" value="Data de Nascimento"/>
+                           <p:outputLabel id="dataNasc" value="#{controleAnimalVenda.objetoAnimal.dtNascimento}" style="width:100%"   />
+							 
+                            
+                         
+                           
+                            
+                            <h:outputLabel for="valor" style="font-weight:bold" value="Valor de Compra"/>
+                            <p:outputLabel id="valor" value="#{controleAnimalVenda.objetoAnimal.valorCompra}"  />
+                           
+                           
+            			    
+            			   
+                        </h:panelGrid>
+                        <p:commandButton value="Ok" 
+                                         validateClient="true" 
+                                         ajax="false" 
+                                         oncomplete="PF('cadastro').hide()"
+                                         
+                                         update=":formTabela" icon="ui-icon-disk" style="width: 100%"/>
+                    </h:form>
+                </p:dialog>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

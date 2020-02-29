@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="template.xhtml">
+
+            <ui:define name="content">
+             <div class="panel panel-default">
+		  <div class="panel-heading"> <h2 style="text-align: center">Informações do Animal </h2><br/></div>
+		  <div class="panel-body">
+                <h:form id="formTabela">
+
+                    <p:commandButton value="Novo" 
+                                     update=":formCadastro" 
+                                     action="./animalCadastro.jsf?faces-redirect=true" 
+                                     actionListener="#{controleAnimal.novo()}"
+                                     />
+
+                    <p:dataTable value="#{controleAnimal.lista}" var="obj" styleClass="table" 
+                                 rows="10"
+                                 paginator="true"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        		 emptyMessage="Nenhum Registro encontrado"
+                        >
+                     
+                        
+                          <p:column headerText="Brinco" sortBy="#{obj.brinco}"
+                             filterBy="#{obj.brinco}">
+                             <h:outputText value="#{obj.brinco}" />
+                      </p:column>
+                         <p:column headerText="Nome" sortBy="#{obj.nomeAnimal}"
+                             filterBy="#{obj.nomeAnimal}">
+                             <h:outputText value="#{obj.nomeAnimal}" />
+                      </p:column>
+
+                        <p:column>
+                            <p:commandButton value="Alterar" 
+                                             
+                                             update=":formCadastro" 
+                                             oncomplete="PF('dialogcadastro').show();">
+                                <f:setPropertyActionListener value="#{obj}"
+                                                             target="#{controleAnimal.objetoAnimal}"/>
+                            </p:commandButton>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Apagar" 
+                                             actionListener="#{controleAnimal.excluir(obj)}"
+                                             update="@form"
+                                            >
+                                <p:confirm header="Confirmação " message="Deseja Apagar "/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                </h:form>
+                  <p:dialog widgetVar="dialogcadastro" header="Cadastro de Animal" modal="true" appendTo="@(body)" responsive="true">
+                    <h:form id="formCadastro">
+                        <h:panelGrid id="grid" columns="3">
+                            <h:outputLabel for="brinco" style="font-weight:bold" value="Nº do Brinco"/>
+                            <p:inputText id="brinco" value="#{controleAnimal.objetoAnimal.brinco}" style="width:100%"  placeholder="10.204" required="true" requiredMessage="Campo obrigatório"/>
+                            <p:message for="brinco"/>
+                            
+                            <h:outputLabel for="nome" style="font-weight:bold" value="Nome do Animal"/>
+                            <p:inputText id="nome" value="#{controleAnimal.objetoAnimal.nomeAnimal}" style="width:100%"  placeholder="Mimosa" required="true" requiredMessage="Campo obrigatório"/>
+                            <p:message for="nome"/>
+                            
+                            <p:outputLabel for="dt" value="Data da Compra do Animal:" />
+      						<p:calendar id="dt"  locale="pt"     value="#{controleAnimal.objetoAnimal.dataCompra}" style="width:100%"  pattern="dd/MM/yyyy " mask="true" showOn="button" required="true" requiredMessage="Campo obrigatório" />
+							<p:message for="dt"/>
+                            
+                            <h:outputLabel for="dataNasc" style="font-weight:bold" value="Data de Nascimento"/>
+                           <p:calendar id="dataNasc"  locale="pt"     value="#{controleAnimal.objetoAnimal.dtNascimento}" style="width:100%"  pattern="dd/MM/yyyy " mask="true" showOn="button" required="true" requiredMessage="Campo obrigatório" />
+							  <p:message for="dataNasc"/>
+                            
+                          
+                          
+                            
+                            <h:outputLabel for="valor" style="font-weight:bold" value="Valor de Compra"/>
+                            <p:inputMask id="valor" value="#{controleAnimal.objetoAnimal.valorCompra}"  mask="9999" style="width:100%" required="true" requiredMessage="Campo obrigatório" />
+                            <p:message for="valor"/>
+                            
+                            
+                            <p:outputLabel for="mamando" value="Desmamado: " />
+           					<p:selectOneMenu id="mamando" value="#{controleAnimal.objetoAnimal.desmamado}" style="width:100%"  required="true" requiredMessage="Campo obrigatório" >
+            					<f:selectItem itemLabel="Sim" itemValue="sim" />
+            				 	<f:selectItem itemLabel="Não" itemValue="nao" />
+            			    </p:selectOneMenu>
+            			       <p:message for="mamando"/>
+                            
+                            <p:outputLabel for="sexo" value="Sexo: " />
+           					<p:selectOneMenu id="sexo" value="#{controleAnimal.objetoAnimal.sexo}" style="width:100%"  required="true" requiredMessage="Campo obrigatório" >
+            					<f:selectItem itemLabel="Femea" itemValue="femea" />
+            				 	<f:selectItem itemLabel="Macho" itemValue="macho" />
+            			    </p:selectOneMenu>
+            			    
+            			    <p:message for="vaca"/>
+            			     <p:outputLabel for="vaca" value="Possui Lactação?: " />
+           					<p:selectOneMenu id="vaca" value="#{controleAnimal.objetoAnimal.lactando}" style="width:100%"  required="true" requiredMessage="Campo obrigatório" >
+            					<f:selectItem itemLabel="Não" itemValue="nao" />
+            				 	<f:selectItem itemLabel="Sim" itemValue="sim" />
+            			    </p:selectOneMenu>
+            			    <p:message for="vaca"/>
+            			    
+            			     <p:outputLabel for="origem" value="Origem do Animal: " />
+							 <p:autoComplete id="origem" value="#{controleAnimal.objetoAnimal.objetoOrigem}" style="width:100%"  completeMethod="#{controleAnimal.completaOrigem}"
+                                            var="origem" itemLabel="#{origem.local}" itemValue="#{origem}" converter="origemConverter" 
+                                            forceSelection="true" dropdown="true" required="true" requiredMessage="Campo obrigatório" placeholder="Fazenda Sitio" />
+                               <p:message for="origem"/>
+                                      
+                                            
+                             
+                             <p:outputLabel for="raca" value="Raça do Animal: " />
+							 <p:autoComplete id="raca" value="#{controleAnimal.objetoAnimal.objetoRaca}" style="width:100%"  completeMethod="#{controleAnimal.completaRaca}"
+                                            var="raca" itemLabel="#{raca.nomeDaRaca}" itemValue="#{raca}" converter="racaConverter" 
+                                            forceSelection="true" dropdown="true"  required="true" requiredMessage="Campo obrigatório" placeholder="Giro, Holandes"/>
+                             <p:message for="raca"/>
+                               
+                           
+                        </h:panelGrid>
+                        <p:commandButton value="Salvar" 
+                                         validateClient="true" 
+                                         ajax="false" 
+                                         oncomplete="PF('cadastro').hide()"
+                                         action="#{controleAnimal.inserir()}" 
+
+                                         update=":formTabela" icon="ui-icon-disk" style="width: 100%"/>
+                    </h:form>
+                </p:dialog>
+                </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="template.xhtml">
+
+            <ui:define name="content">
+          
+                <h:form id="formTabela">
+                 
+			  <p:growl id="growl" showDetail="true" sticky="true" life="4000" />  
+			   <p:dataTable value="#{controleAnimalProducao.listaV}" var="obj" styleClass="table" 
+                                 rows="10"
+                                 paginator="true"
+                                 emptyMessage="Nenhum animal para ordenhar"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        >
+                        <f:facet name="header">
+                            <h1>  Animais Para Ordenha</h1> 
+                        </f:facet>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Animal" />
+                            </f:facet>
+                            <h:outputText id="animal" value="#{obj.objetoAnimal.nomeAnimal}" />
+                        </p:column>
+							<p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Quantidade de Litros" />
+                            </f:facet>
+                            <h:outputText id="venda" value="#{obj.quantidadeTotal}" />
+                             
+                            </p:column>      
+                        <p:column>
+                            <p:commandButton value="Add Quantidade de Litros " 
+                                             
+                                             update=":formCadastro" 
+                                             oncomplete="PF('dialogcadastro').show();">
+                                <f:setPropertyActionListener value="#{obj}"
+                                                             target="#{controleAnimalProducao.objetoMovimentoProducao}"/>
+                            </p:commandButton>
+                        </p:column>
+                         <p:column>
+                            <p:commandButton value="Remover" 
+                                             actionListener="#{controleAnimalProducao.removerIten(obj)}"
+                                             update="@form"
+                                            >
+                                <p:confirm header="Confirmação " message="Deseja Apagar "/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                     <p:commandButton value="Ordenhar Animais"
+                      					 action="#{controleAnimalProducao.inserirMovimentoProducao()}" 
+                      					 update=":formTabela" icon="ui-icon-disk" style="width: 100%"/>
+                                         
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                </h:form>
+                  <p:dialog widgetVar="dialogcadastro" header="Adicionar Ordenha ao Animal" modal="true" appendTo="@(body)" responsive="true">
+                    <h:form id="formCadastro">
+                        <h:panelGrid id="grid" columns="2">
+                        
+                          
+                               
+                             <h:outputLabel for="qtd" style="font-weight:bold" value="Total de litros"/>
+                             <p:inputText id="qtd" value="#{controleAnimalProducao.objetoMovimentoProducao.quantidadeTotal}"  style="width:100%" required="true" requiredMessage="Campo obrigatório" />
+                                                       
+                              <p:outputLabel for="leite" value="Valor do litro do leite : " />
+                              <p:autoComplete id="leite" value="#{controleAnimalProducao.objetoLeite}" style="width:100%"  completeMethod="#{controleAnimalProducao.completaLeite}"
+                                            var="leite" itemLabel="#{leite.valorLitro}" itemValue="#{leite}" converter="leiteConverter" 
+                                            forceSelection="true" dropdown="true" required="true" requiredMessage="Campo obrigatório" />
+                              <p:message for="leite"/>
+
+                          
+                        </h:panelGrid>
+                        <p:commandButton value="Adicionar" 
+                                         validateClient="true" 
+                                         ajax="false" 
+                                         oncomplete="PF('cadastro').hide()"
+                                         update=":formTabela" icon="ui-icon-disk" style="width: 100%"/>
+                    </h:form>
+                </p:dialog>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
